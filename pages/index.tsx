@@ -17,7 +17,7 @@ export default function Home() {
 				<title>Coffee Connoisseur</title>
 				<meta name='Coffee Connoisseur' content='Coffee Store in your area' />
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
-				<link rel='icon' href='/favicon.ico' />
+				<link rel="shortcut icon" href="/static/favicon.ico" />
 			</Head>
 
 			<main className={`${styles.main} ${inter.className}`}>

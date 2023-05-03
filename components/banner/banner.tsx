@@ -1,6 +1,6 @@
 import styles from '@/components/banner/banner.module.css'
 
-const Banner = (props: any) => {
+export default function Banner({ buttonText, handleOnClick } : { buttonText: string, handleOnClick: any}){
 	return (
 		<div className={styles.container}>
 			<h1 className={styles.title}>
@@ -8,9 +8,7 @@ const Banner = (props: any) => {
                 <span className={styles.title2}>Connoisseur</span>
 			</h1>
 			<p className={styles.subTitle}>Discover you local coffe shops!</p>
-			<button className={styles.button} onClick={props.handleOnClick}>{props.buttonText}</button>
+			<button className={styles.button} onClick={handleOnClick}>{buttonText}</button>
 		</div>
 	);
 };
-
-export default Banner;

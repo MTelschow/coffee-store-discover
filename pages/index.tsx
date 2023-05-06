@@ -2,8 +2,7 @@ import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
 import Banner from '@/components/banner/banner';
 import Image from 'next/image';
-
-
+import Card from '@/components/card/card';
 
 export default function Home() {
 	const handleOnBannerButtonClick = () => {
@@ -29,6 +28,14 @@ export default function Home() {
 						width={700}
 						height={400}
 						alt='hero image'
+					/>
+				</div>
+				<div className={styles.cardLayout}>
+					<Card
+						name={'Store'}
+						imageUrl={'/favicon.png'}
+						storeLink={'/icon'}
+						
 					/>
 				</div>
 			</main>

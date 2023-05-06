@@ -5,7 +5,23 @@ import Image from 'next/image';
 import Card from '@/components/card/card';
 import coffeeStores from '@/data/coffee-stores.json';
 
-export default function Home() {
+interface CoffeeStore {
+	id: number;
+	name: string;
+	imgUrl: string;
+    websiteUrl: string;
+    address: string;
+    neighbourhood: string;
+}
+
+export async function getStaticProps(context) {
+	return {
+		props: { coffeeStores }, // will be passed to the page component as props
+	};
+}
+
+export default function Home(props: { coffeeStores: CoffeeStore[]}) {
+	const {coffeeStores} = props;
 	const handleOnBannerButtonClick = () => {
 		console.log('banner button press');
 	};
@@ -33,7 +49,8 @@ export default function Home() {
 				</div>
 				<div className={styles.cardLayout}>
 					{coffeeStores.map((store) => {
-						const { id, name, imgUrl, websiteUrl, address, neighbourhood} = store;
+						const { id, name, imgUrl, websiteUrl, address, neighbourhood } =
+							store;
 						return (
 							<Card
 								key={id}

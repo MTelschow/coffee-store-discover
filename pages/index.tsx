@@ -3,6 +3,7 @@ import styles from '@/styles/Home.module.css';
 import Banner from '@/components/banner/banner';
 import Image from 'next/image';
 import Card from '@/components/card/card';
+import coffeeStores from '@/data/coffee-stores.json';
 
 export default function Home() {
 	const handleOnBannerButtonClick = () => {
@@ -31,12 +32,17 @@ export default function Home() {
 					/>
 				</div>
 				<div className={styles.cardLayout}>
-					<Card
-						name={'Store'}
-						imageUrl={'/favicon.png'}
-						storeLink={'/icon'}
-						
-					/>
+					{coffeeStores.map((store) => {
+						const { id, name, imgUrl, websiteUrl, address, neighbourhood} = store;
+						return (
+							<Card
+								key={id}
+								name={name}
+								imageUrl={imgUrl}
+								storeLink={'/coffee-store/' + id}
+							/>
+						);
+					})}
 				</div>
 			</main>
 		</>

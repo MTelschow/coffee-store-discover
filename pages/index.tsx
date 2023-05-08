@@ -3,25 +3,30 @@ import styles from '@/styles/Home.module.css';
 import Banner from '@/components/banner/banner';
 import Image from 'next/image';
 import Card from '@/components/card/card';
-import coffeeStores from '@/data/coffee-stores.json';
+import coffeeStoresData from '@/data/coffee-stores.json';
 
 interface CoffeeStore {
 	id: number;
 	name: string;
 	imgUrl: string;
-    websiteUrl: string;
-    address: string;
-    neighbourhood: string;
+	websiteUrl: string;
+	address: string;
+	neighbourhood: string;
 }
 
-export async function getStaticProps(context) {
+// export async function getStaticProps(context) {
+// 	return {
+// 		props: { coffeeStores }, // will be passed to the page component as props
+// 	};
+// }
+export async function getStaticProps() {
 	return {
-		props: { coffeeStores }, // will be passed to the page component as props
+		props: { coffeeStores: coffeeStoresData }, // will be passed to the page component as props
 	};
 }
 
-export default function Home(props: { coffeeStores: CoffeeStore[]}) {
-	const {coffeeStores} = props;
+export default function Home(props: { coffeeStores: CoffeeStore[] }) {
+	const { coffeeStores } = props;
 	const handleOnBannerButtonClick = () => {
 		console.log('banner button press');
 	};
@@ -47,20 +52,25 @@ export default function Home(props: { coffeeStores: CoffeeStore[]}) {
 						alt='hero image'
 					/>
 				</div>
-				<div className={styles.cardLayout}>
-					{coffeeStores.map((store) => {
-						const { id, name, imgUrl, websiteUrl, address, neighbourhood } =
-							store;
-						return (
-							<Card
-								key={id}
-								name={name}
-								imageUrl={imgUrl}
-								storeLink={'/coffee-store/' + id}
-							/>
-						);
-					})}
-				</div>
+				{coffeeStores.length > 0 && (
+					<>
+						<h2 className={styles.heading2}>Frankfurt stores</h2>
+						<div className={styles.cardLayout}>
+							{coffeeStores.map((store) => {
+								const { id, name, imgUrl, websiteUrl, address, neighbourhood } =
+									store;
+								return (
+									<Card
+										key={id}
+										name={name}
+										imageUrl={imgUrl}
+										storeLink={'/coffee-store/' + id}
+									/>
+								);
+							})}
+						</div>
+					</>
+				)}
 			</main>
 		</>
 	);

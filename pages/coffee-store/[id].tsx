@@ -2,23 +2,26 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
-import coffeeStoreData from '@/data/coffee-stores.json';
 import styles from '@/styles/coffee-store.module.css';
 
 import cls from 'classnames';
 
+import { fetchCoffeeStores } from '@/lib/coffee-stores';
+
 export async function getStaticProps({ params }: { params: any }) {
+	const coffeeStores = await fetchCoffeeStores();
 	return {
 		props: {
-			coffeeStore: coffeeStoreData.find((coffeeStore) => {
-				return coffeeStore.id === Number(params.id);
+			coffeeStore: coffeeStores.find((coffeeStore: any) => {
+				return coffeeStore.id.toString() === params.id;
 			}),
 		}, // will be passed to the page component as props
 	};
 }
 
 export async function getStaticPaths() {
-	const paths = coffeeStoreData.map((coffeeStore) => {
+	const coffeeStores = await fetchCoffeeStores();
+	const paths = coffeeStores.map((coffeeStore: any) => {
 		return { params: { id: coffeeStore.id.toString() } };
 	});
 
@@ -34,7 +37,8 @@ export default function CoffeeStore(props: any) {
 		return <div>Loading...</div>;
 	}
 
-	const { address, name, neighbourhood, imgUrl } = props.coffeeStore;
+	const { name, imgUrl, city, address } = props.coffeeStore;
+	// const { address } = props.coffeeStore.location;
 
 	const handleUpvoteButton = () => {};
 
@@ -76,7 +80,7 @@ export default function CoffeeStore(props: any) {
 							<p className={styles.text}>{address}</p>
 						</div>
 					)}
-					{neighbourhood && (
+					{city && (
 						<div className={styles.iconWrapper}>
 							<Image
 								src='/static/icons/nearMe.svg'
@@ -84,7 +88,7 @@ export default function CoffeeStore(props: any) {
 								height='24'
 								alt='near me icon'
 							/>
-							<p className={styles.text}>{neighbourhood}</p>
+							<p className={styles.text}>{city}</p>
 						</div>
 					)}
 					<div className={styles.iconWrapper}>

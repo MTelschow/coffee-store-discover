@@ -1,31 +1,22 @@
 import Head from 'next/head';
-import styles from '@/styles/Home.module.css';
-import Banner from '@/components/banner/banner';
 import Image from 'next/image';
+import styles from '@/styles/Home.module.css';
+
+import Banner from '@/components/banner/banner';
 import Card from '@/components/card/card';
+
 import coffeeStoresData from '@/data/coffee-stores.json';
+import {fetchCoffeeStores} from '@/lib/coffee-stores';
 
-interface CoffeeStore {
-	id: number;
-	name: string;
-	imgUrl: string;
-	websiteUrl: string;
-	address: string;
-	neighbourhood: string;
-}
-
-// export async function getStaticProps(context) {
-// 	return {
-// 		props: { coffeeStores }, // will be passed to the page component as props
-// 	};
-// }
 export async function getStaticProps() {
+	const coffeeStores = await fetchCoffeeStores();
+
 	return {
-		props: { coffeeStores: coffeeStoresData }, // will be passed to the page component as props
+		props: { coffeeStores }, // will be passed to the page component as props
 	};
 }
 
-export default function Home(props: { coffeeStores: CoffeeStore[] }) {
+export default function Home(props: any) {
 	const { coffeeStores } = props;
 	const handleOnBannerButtonClick = () => {
 		console.log('banner button press');
@@ -56,15 +47,16 @@ export default function Home(props: { coffeeStores: CoffeeStore[] }) {
 					<>
 						<h2 className={styles.heading2}>Frankfurt stores</h2>
 						<div className={styles.cardLayout}>
-							{coffeeStores.map((store) => {
-								const { id, name, imgUrl, websiteUrl, address, neighbourhood } =
-									store;
+							{coffeeStores.map((store: any) => {
 								return (
 									<Card
-										key={id}
-										name={name}
-										imageUrl={imgUrl}
-										storeLink={'/coffee-store/' + id}
+										key={store.fsq_id}
+										name={store.name}
+										imageUrl={
+											store.imgUrl ||
+											'https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80'
+										}
+										storeLink={'/coffee-store/' + store.fsq_id}
 									/>
 								);
 							})}

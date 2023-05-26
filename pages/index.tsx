@@ -24,16 +24,18 @@ export default function Home(props: any) {
 	const { handleTrackLocation, latLong, locationErrorMsg, isFindingLocation } =
 		useTrackLocation();
 
-	const [coffeeStores, setCoffeeStores] = useState<any[]>([])
-		
+	const [coffeeStores, setCoffeeStores] = useState<any[]>([]);
+
+	const [coffeeStoresError, setcoffeeStoresError] = useState<any>(null)
+
 	useEffect(() => {
 		async function setCoffeeStoresByLocation() {
 			if (latLong) {
 				try {
 					const fetchedCoffeeStores = await fetchCoffeeStores(latLong, 18);
-					setCoffeeStores(fetchedCoffeeStores)
-				} catch (error) {
-					console.log({ error });
+					setCoffeeStores(fetchedCoffeeStores);
+				} catch (error: any) {
+					setcoffeeStoresError(error.message);
 				}
 			}
 		}
@@ -58,7 +60,8 @@ export default function Home(props: any) {
 					buttonText={isFindingLocation ? 'Locating...' : 'View stores nearby'}
 					handleOnClick={handleOnBannerButtonClick}
 				/>
-				{locationErrorMsg}
+				{locationErrorMsg && <p>{locationErrorMsg}</p>}
+				{coffeeStoresError && <p>{coffeeStoresError}</p>}
 				<div className={styles.heroImage}>
 					<Image
 						src='/static/hero-image.png'

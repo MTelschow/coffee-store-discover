@@ -6,7 +6,9 @@ import Banner from '@/components/banner/banner';
 import Card from '@/components/card/card';
 
 import coffeeStoresData from '@/data/coffee-stores.json';
-import {fetchCoffeeStores} from '@/lib/coffee-stores';
+import { fetchCoffeeStores } from '@/lib/coffee-stores';
+import useTrackLocation from '@/hooks/use-track-location';
+import { use, useState } from 'react';
 
 export async function getStaticProps() {
 	const coffeeStores = await fetchCoffeeStores();
@@ -18,8 +20,13 @@ export async function getStaticProps() {
 
 export default function Home(props: any) {
 	const { coffeeStores } = props;
+
+	const { handleTrackLocation, latLong, locationErrorMsg } = useTrackLocation();
+	console.log({ latLong, locationErrorMsg });
+
 	const handleOnBannerButtonClick = () => {
 		console.log('banner button press');
+		handleTrackLocation();
 	};
 
 	return (
@@ -45,7 +52,9 @@ export default function Home(props: any) {
 				</div>
 				{coffeeStores.length > 0 && (
 					<>
-						<h2 className={styles.heading2}>{coffeeStores[0].city + ' stores'}</h2>
+						<h2 className={styles.heading2}>
+							{coffeeStores[0].city + ' stores'}
+						</h2>
 						<div className={styles.cardLayout}>
 							{coffeeStores.map((store: any) => {
 								return (

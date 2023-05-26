@@ -29,19 +29,18 @@ export async function fetchCoffeeStores() {
 	};
 
 	const response = await fetch(
-		getUrlForCoffeeStores('49.97852435170035%2C9.133907480927235', 'coffee', 6),
+		getUrlForCoffeeStores('50.11364422239405%2C8.675775071661507' , 'coffee', 9),
 		options
 	);
 	const data = await response.json();
 	return data.results.map((result: any, idx: number) => {
-		return  {
-			// ...result,
-			name: result.name, 
+		return {
+			name: result.name,
 			id: result.fsq_id,
 			city: result.location.locality,
 			address: result.location.address,
-			imgUrl: photos[idx]
-		}
+			imgUrl: photos.length > 0 ? photos[idx] : null,
+		};
 	});
 	// .catch(err => console.error(err));
 }

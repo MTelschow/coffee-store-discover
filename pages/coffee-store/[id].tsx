@@ -98,7 +98,7 @@ export default function CoffeeStore(props: any) {
 							height='24'
 							alt='star icon'
 						/>
-						<p className={styles.text}>1</p>
+						<p className={styles.text}>0</p>
 					</div>
 
 					<button className={styles.upvoteButton} onClick={handleUpvoteButton}>

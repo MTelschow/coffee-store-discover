@@ -21,7 +21,7 @@ export async function getStaticProps() {
 export default function Home(props: any) {
 	const { coffeeStores } = props;
 
-	const { handleTrackLocation, latLong, locationErrorMsg } = useTrackLocation();
+	const { handleTrackLocation, latLong, locationErrorMsg, isFindingLocation } = useTrackLocation();
 	console.log({ latLong, locationErrorMsg });
 
 	const handleOnBannerButtonClick = () => {
@@ -39,9 +39,10 @@ export default function Home(props: any) {
 
 			<main className={`${styles.main} `}>
 				<Banner
-					buttonText='View stores nearby'
+					buttonText={isFindingLocation ? 'Locating...' : 'View stores nearby'}
 					handleOnClick={handleOnBannerButtonClick}
 				/>
+				{locationErrorMsg}
 				<div className={styles.heroImage}>
 					<Image
 						src='/static/hero-image.png'
@@ -51,7 +52,7 @@ export default function Home(props: any) {
 					/>
 				</div>
 				{coffeeStores.length > 0 && (
-					<>
+					<div className={styles.sectionWrapper}>
 						<h2 className={styles.heading2}>
 							{coffeeStores[0].city + ' stores'}
 						</h2>
@@ -70,7 +71,7 @@ export default function Home(props: any) {
 								);
 							})}
 						</div>
-					</>
+					</div>
 				)}
 			</main>
 		</>

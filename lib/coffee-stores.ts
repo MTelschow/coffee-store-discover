@@ -1,7 +1,7 @@
 import { createApi } from 'unsplash-js';
 
 const unsplash = createApi({
-	accessKey: `${process.env.UNSPLASHED_API_KEY}`,
+	accessKey: `${process.env.NEXT_PUBLIC_UNSPLASHED_API_KEY}`,
 });
 
 function getUrlForCoffeeStores(latLong: string, query: string, limit: number) {
@@ -18,18 +18,18 @@ async function getListOfCoffeeStorePhotos() {
 	return unsplashResults.map((result) => result.urls['small']);
 }
 
-export async function fetchCoffeeStores() {
+export async function fetchCoffeeStores(latLong = '50.11364422239405,8.675775071661507', limit = 9) {
 	const photos = await getListOfCoffeeStorePhotos();
 	const options: any = {
 		method: 'GET',
 		headers: {
 			accept: 'application/json',
-			Authorization: process.env.FOURSQUARE_API_KEY,
+			Authorization: process.env.NEXT_PUBLIC_FOURSQUARE_API_KEY,
 		},
 	};
-
+	
 	const response = await fetch(
-		getUrlForCoffeeStores('50.11364422239405%2C8.675775071661507' , 'coffee', 9),
+		getUrlForCoffeeStores(latLong , 'coffee', limit),
 		options
 	);
 	const data = await response.json();
@@ -39,7 +39,7 @@ export async function fetchCoffeeStores() {
 			id: result.fsq_id,
 			city: result.location.locality,
 			address: result.location.address,
-			imgUrl: photos.length > 0 ? photos[idx] : null,
+			imgUrl: photos.length > 0 ? photos[idx + (limit === 9 ? 0 : 10)] : null,
 		};
 	});
 	// .catch(err => console.error(err));

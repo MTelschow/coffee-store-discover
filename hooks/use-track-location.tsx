@@ -31,9 +31,9 @@ export default function useTrackLocation() {
 	};
 
 	return {
-		latLong,
 		handleTrackLocation,
+		latLong,
 		locationErrorMsg,
-    isFindingLocation,
+		isFindingLocation,
 	};
 }

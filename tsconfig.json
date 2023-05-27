@@ -18,6 +18,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "hooks/use-track-location.tsx", "store/store-context.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "hooks/use-track-location.tsx", "store/store-context.js", "pages/api/getCoffeeStoresByLocation.js"],
   "exclude": ["node_modules"]
 }

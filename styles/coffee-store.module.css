@@ -51,6 +51,7 @@
     /* height: auto; */
     vertical-align: middle;
     border-style: none;
+    object-fit: cover;
   }
   
   .col2 {
